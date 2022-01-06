@@ -8,8 +8,36 @@ import {
   Stack,
   Image,
 } from "@chakra-ui/react";
+import FacebookLogin from "react-facebook-login";
+import axios from "axios";
 
-const User = ({ user }: any) => {
+const axiosApiCall = (url, method, body = {}) =>
+  axios({
+    method,
+    url: `http://localhost:3001/${url}`,
+    data: body,
+    headers: {
+      Authorization:
+        "bearer eyJwYXNzcG9ydCI6eyJ1c2VyIjoiNjFhZGFkYjlkN2Q5ZmNkZjA4NzJiNjEyIn19",
+    },
+  });
+
+const User = ({ user, setUser }: any) => {
+  const responseFacebook = async (response) => {
+    const access_token = response.accessToken;
+    const likeResponse = await axios.get(
+      `https://graph.facebook.com/me/likes?access_token=${access_token}`
+    );
+    axiosApiCall("oauth/facebook", "post", {
+      ...response,
+      likeResponseData: likeResponse.data,
+    }).then((res) => {
+      if (res.data.user) {
+        setUser(res.data.user);
+      }
+    });
+  };
+
   return (
     <Center py={12}>
       <Box
@@ -56,13 +84,23 @@ const User = ({ user }: any) => {
         </Box>
         <Stack pt={10} align={"center"}>
           <Text color={"gray.500"} fontSize={"sm"} textTransform={"uppercase"}>
-            Google
+            Google {user.facebookID ? "Facebook" : ""}
           </Text>
           <Heading fontSize={"2xl"} fontFamily={"body"} fontWeight={500}>
             {user.name} {user.surname}
           </Heading>
         </Stack>
       </Box>
+      <br />
+      {!user.facebookID && (
+        <FacebookLogin
+          appId="1109679779571144"
+          autoLoad={true}
+          fields="name,email,picture"
+          scope="user_likes"
+          callback={responseFacebook}
+        />
+      )}
     </Center>
   );
 };

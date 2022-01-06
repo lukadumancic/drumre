@@ -29,12 +29,14 @@ const Login = ({ setUser }: any) => {
 
   const onSuccess = (response) => {
     const access_token = response.accessToken;
-    axios.get(
+    /*axios.get(
       `https://www.googleapis.com/calendar/v3/users/me/calendarList?access_token=${access_token}`
-    );
+    );*/
     axiosApiCall("oauth/google", "post", { access_token }).then((res) => {
       const { user, token } = res.data;
+      console.log(res);
       Cookie.set("token", token);
+      
       setUser(user);
     });
   };

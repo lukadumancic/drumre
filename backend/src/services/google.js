@@ -12,7 +12,6 @@ passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     },
     async (accessToken, refreshToken, profile, done) => {
-      console.log(profile)
       const existingUser = await User.findOne({ googleID: profile.id });
       if (existingUser) {
         console.log('existing user');

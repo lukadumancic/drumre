@@ -28,7 +28,7 @@ const Index = () => {
       <Center>
         {user ? (
           <Box>
-            <User user={user} />
+            <User user={user} setUser={setUser} />
             <Flex flexDir="row">
               <ShowData name={user.name} />
               <MovieData name={user.name} />

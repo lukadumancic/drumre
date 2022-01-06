@@ -8,8 +8,13 @@ const routes = (app) => {
 
   app.post(
     "/oauth/google",
-    passport.authenticate("google-token", { session: false, scope: 'https://www.googleapis.com/auth/calendar.readonly' }),
+    passport.authenticate("google-token", { session: true, scope: 'https://www.googleapis.com/auth/calendar.readonly' }),
     AuthController.googleLogin
+  );
+
+  app.post(
+    "/oauth/facebook",
+    AuthController.facebookLogin
   );
 };
 
