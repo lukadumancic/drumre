@@ -68,7 +68,7 @@ const MovieData = ({ name }: any) => {
 
   return (
     <Container maxW={"7xl"} p="12">
-      <Heading as="h1">Suggested movies</Heading>
+      <Heading as="h1">TOP 10 movies</Heading>
       {isLoading && <Spinner />}
       {movies.map((movie: any) => (
         <Box

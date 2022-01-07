@@ -68,7 +68,7 @@ const ShowData = ({ name }: any) => {
 
   return (
     <Container maxW={"7xl"} p="12">
-      <Heading as="h1">Suggested TV shows</Heading>
+      <Heading as="h1">Suggested movies</Heading>
       {isLoading && <Spinner />}
       {movies.map((movie: any) => (
         <Box
